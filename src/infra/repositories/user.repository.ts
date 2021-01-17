@@ -1,39 +1,55 @@
 import { injectable } from "inversify";
 import mongoose from 'mongoose';
-import { ChangePassword } from "../../domain/dtos/user/change.password";
-import { CreateUserDto } from "../../domain/dtos/user/create.user.dto";
-import { LoginDto } from "../../domain/dtos/user/login.dto";
-import { UpdateUserDto } from "../../domain/dtos/user/update.user.dto";
 import { IUserRepository } from "../../domain/repositories/user.repository.interface";
-import UserModel, { UserEntity } from '../models/user.model';
+import UserModel, { IUserModel } from '../models/user.model';
 
 @injectable()
 export class UserRepository implements IUserRepository {
 
-    async login(user: LoginDto): Promise<UserEntity | null> {
+    async findByEmail(user: IUserModel): Promise<IUserModel | null> {
         try {
             const result = await UserModel.findOne()
                 .where('email').equals(user.email);
-            
-            return result;
+
+            if (result) {
+                return {
+                    id: result.id,
+                    firstName: result.firstName,
+                    lastName: result.lastName,
+                    email: result.email,
+                    password: result.password
+                };
+            }
+            else
+                return null;
         }
         catch (e) {
             return null;
         }
     }
     
-    async create(user: CreateUserDto): Promise<UserEntity | null> {
+    async create(user: IUserModel): Promise<IUserModel | null> {
         try {
             const result = await UserModel.create(user);
 
-            return result;
+            if (result) {
+                return {
+                    id: result.id,
+                    firstName: result.firstName,
+                    lastName: result.lastName,
+                    email: result.email,
+                    password: result.password
+                };
+            }
+            else
+                return null;
         }
         catch (e) {
             return null;
         }
     }
 
-    async update(user: UpdateUserDto): Promise<boolean> {
+    async update(user: IUserModel): Promise<boolean> {
         try {
             await UserModel.updateOne({
                 _id: new mongoose.mongo.ObjectId(user.id)
@@ -51,7 +67,7 @@ export class UserRepository implements IUserRepository {
         }
     }
 
-    async changePassword(user: ChangePassword): Promise<boolean> {
+    async changePassword(user: IUserModel): Promise<boolean> {
         try {
             await UserModel.updateOne({
                 _id: new mongoose.mongo.ObjectId(user.id)

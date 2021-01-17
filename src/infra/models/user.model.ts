@@ -1,13 +1,19 @@
 import { Document, Schema, model } from 'mongoose';
 
-export interface UserEntity extends Document {
+interface IUserBase {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
 }
 
-const UserSchema = new Schema<UserEntity>({
+export interface IUserModel extends Partial<IUserBase> {
+    id?: string;
+}
+
+interface IUserDocument extends IUserBase, Document {}
+
+const UserSchema = new Schema<IUserDocument>({
     firstName: {
         type: String,
         required: true

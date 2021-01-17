@@ -5,8 +5,8 @@ import { TokenResultDto } from '../dtos/user/token.result.dto';
 import { UpdateUserDto } from '../dtos/user/update.user.dto';
 
 export interface IUserService {
-    login(user: LoginDto): Promise<TokenResultDto | null | undefined>;
-    create(user: CreateUserDto): Promise<TokenResultDto | null | undefined>;
+    login(user: LoginDto): Promise<TokenResultDto | null>;
+    create(user: CreateUserDto): Promise<TokenResultDto | null>;
     update(user: UpdateUserDto): Promise<boolean>;
     changePassword(user: ChangePassword): Promise<boolean>;
 }
