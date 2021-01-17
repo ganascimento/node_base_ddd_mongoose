@@ -2,8 +2,12 @@ import mongoose from 'mongoose';
 import environment from '../config/environment';
 
 class DbMongo {
-    connect(): Promise<any> {
-        return mongoose.connect(environment.database.connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+    async connect() {
+        await mongoose.connect(environment.database.connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+    }
+
+    async disconnect() {
+        await mongoose.disconnect();
     }
 }
 

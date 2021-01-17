@@ -2,7 +2,21 @@
   "name": "api",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "ts-node jest.startup.ts --detectOpenHandles"
+  },
+  "jest": {
+    "globals": {
+      "address": "http://localhost:3001"
+    },
+    "preset": "ts-jest",
+    "verbose": true,
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$"
+  },
   "keywords": [],
   "author": "Guilherme de Araujo Nascimento",
   "license": "MIT",

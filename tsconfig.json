@@ -10,7 +10,7 @@
       "./@types",
       "./node_modules/@types"
     ],
-    "types": ["reflect-metadata"],
+    "types": ["reflect-metadata", "jest", "node"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -21,5 +21,9 @@
   "include": [
     "./main.ts",
     "./src"
+  ],
+  "exclude": [
+    "jest.startup.ts",
+    "**/*.test.ts"
   ]
 }

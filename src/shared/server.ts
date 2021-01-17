@@ -7,11 +7,14 @@ import environment from './config/environment';
 import errorConfig from './config/error.config';
 import container from './config/dependencies.config';
 import DbMongo from './db/db.mongo';
+import http from 'http';
 
 class Server {
-    start() {
+    private server: http.Server;
+    private dbMongo: DbMongo = new DbMongo();
+
+    async start(): Promise<any> {
         const server: InversifyExpressServer = new InversifyExpressServer(container);
-        const dbMongo: DbMongo = new DbMongo();
 
         server.setConfig(app => {
             app.use(express.json());
@@ -24,15 +27,20 @@ class Server {
 
         const app = server.build();
 
-        dbMongo.connect()
-            .then(() => {
-                app.listen(environment.port, () => {
-                    console.log(`server running in port ${environment.port}`);
-                });
-            })
-            .catch(() => {
-                console.log('Erro to connect with MongoDB');
+        try {
+            await this.dbMongo.connect();
+            this.server = app.listen(environment.port, () => {
+                console.log(`server running in port ${environment.port}`);
             });
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    async shutdown() {
+        await this.dbMongo.disconnect();
+        this.server.close();
     }
 }
 
