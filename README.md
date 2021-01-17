@@ -11,6 +11,7 @@ This repository was created to be a base project to develop Node APIs in the DDD
   - Dependency Injection
   - Authentication JWT
   - Configuration file
+  - Test
  
 ## Dependencies
   - Express 4.17.1
@@ -22,6 +23,8 @@ This repository was created to be a base project to develop Node APIs in the DDD
   - Jsonwebtoken 8.5.1
   - Bcrypt.js 2.4.3
   - Dotenv 8.2.0
+  - Jest: 26.6.3
+  - Supertest": 6.1.1
  
 License
 ----
